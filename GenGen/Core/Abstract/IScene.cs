@@ -7,5 +7,6 @@ public interface IScene : IDisposable
 {
 	void Initialize(GenGenGame game);
 	void Update(GameTime gameTime);
-	void Draw(SpriteBatch spriteBatch, GameTime gameTime);
+	void DrawMap(SpriteBatch spriteBatch, GameTime gameTime);
+	void DrawSprites(SpriteBatch spriteBatch, GameTime gameTime);
 }

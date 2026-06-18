@@ -35,5 +35,7 @@ public class SceneManager(GenGenGame game)
 
 	public void Update(GameTime gameTime) => CurrentScene?.Update(gameTime);
 
-	public void Draw(SpriteBatch spriteBatch, GameTime gameTime) => CurrentScene?.Draw(spriteBatch, gameTime);
+	public void DrawMap(SpriteBatch spriteBatch, GameTime gameTime) => CurrentScene?.DrawMap(spriteBatch, gameTime);
+	
+	public void DrawSprites(SpriteBatch spriteBatch, GameTime gameTime) => CurrentScene?.DrawSprites(spriteBatch, gameTime);
 }

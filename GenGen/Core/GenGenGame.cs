@@ -38,7 +38,7 @@ public class GenGenGame : Game
 	{
 		_spriteBatch = new SpriteBatch(GraphicsDevice);
 		_stackRenderer.Initialize(GraphicsDevice, _spriteBatch);
-		_sceneManager.LoadScene(new TestScene(_stackRenderer));
+		_sceneManager.LoadScene(new TestScene(_stackRenderer, _spriteBatch));
 	}
 
 	protected override void Update(GameTime gameTime)
@@ -54,8 +54,12 @@ public class GenGenGame : Game
 	{
 		GraphicsDevice.Clear(new Color(30, 30, 35));
 
+		_spriteBatch.Begin();
+		_sceneManager.DrawMap(_spriteBatch, gameTime);
+		_spriteBatch.End();
+
 		_spriteBatch.Begin(sortMode: SpriteSortMode.BackToFront);
-		_sceneManager.Draw(_spriteBatch, gameTime);
+		_sceneManager.DrawSprites(_spriteBatch, gameTime);
 		_spriteBatch.End();
 
 		base.Draw(gameTime);
