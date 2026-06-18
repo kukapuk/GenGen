@@ -1,13 +1,19 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GenGen.Rendering;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace GenGen.Core;
 
+/// <summary>
+/// Главный класс игры.
+/// </summary>
 public class GenGenGame : Game
 {
 	private readonly GraphicsDeviceManager _graphics;
 	private SpriteBatch _spriteBatch = null!;
+	private SceneManager _sceneManager = null!;
+	private SpriteStackRenderer _stackRenderer = null!;
 
 	public GenGenGame()
 	{
@@ -23,14 +29,16 @@ public class GenGenGame : Game
 
 	protected override void Initialize()
 	{
-		// инициализация систем движка
+		_sceneManager = new SceneManager(this);
+		_stackRenderer = new SpriteStackRenderer();
 		base.Initialize();
 	}
 
 	protected override void LoadContent()
 	{
 		_spriteBatch = new SpriteBatch(GraphicsDevice);
-		// загрузка текстур, карт и т.д.
+		_stackRenderer.Initialize(GraphicsDevice, _spriteBatch);
+		_sceneManager.LoadScene(new TestScene(_stackRenderer));
 	}
 
 	protected override void Update(GameTime gameTime)
@@ -38,7 +46,7 @@ public class GenGenGame : Game
 		if (Keyboard.GetState().IsKeyDown(Keys.Escape))
 			Exit();
 
-		// обновление логики
+		_sceneManager.Update(gameTime);
 		base.Update(gameTime);
 	}
 
@@ -46,7 +54,10 @@ public class GenGenGame : Game
 	{
 		GraphicsDevice.Clear(new Color(30, 30, 35));
 
-		// отрисовка
+		_spriteBatch.Begin(sortMode: SpriteSortMode.BackToFront);
+		_sceneManager.Draw(_spriteBatch, gameTime);
+		_spriteBatch.End();
+
 		base.Draw(gameTime);
 	}
 }
