@@ -33,9 +33,8 @@ public class SceneManager(GenGenGame game)
 			scene.Dispose();
 	}
 
-	public void Update(GameTime gameTime) => CurrentScene?.Update(gameTime);
-
-	public void DrawMap(SpriteBatch spriteBatch, GameTime gameTime) => CurrentScene?.DrawMap(spriteBatch, gameTime);
-	
+	public void Update(GameTime gameTime)          => CurrentScene?.Update(gameTime);
+	public void DrawMap(SpriteBatch spriteBatch, GameTime gameTime)     => CurrentScene?.DrawMap(spriteBatch, gameTime);
 	public void DrawSprites(SpriteBatch spriteBatch, GameTime gameTime) => CurrentScene?.DrawSprites(spriteBatch, gameTime);
+	public void DrawEditor(GameTime gameTime)      => CurrentScene?.DrawEditor(gameTime);
 }

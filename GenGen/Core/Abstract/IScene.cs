@@ -9,4 +9,5 @@ public interface IScene : IDisposable
 	void Update(GameTime gameTime);
 	void DrawMap(SpriteBatch spriteBatch, GameTime gameTime);
 	void DrawSprites(SpriteBatch spriteBatch, GameTime gameTime);
+	void DrawEditor(GameTime gameTime);
 }

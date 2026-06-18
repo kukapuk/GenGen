@@ -1,4 +1,5 @@
-﻿using GenGen.Rendering;
+﻿using GenGen.Editor;
+using GenGen.Rendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -14,6 +15,7 @@ public class GenGenGame : Game
 	private SpriteBatch _spriteBatch = null!;
 	private SceneManager _sceneManager = null!;
 	private SpriteStackRenderer _stackRenderer = null!;
+	private ImGuiRenderer _imGui = null!;
 
 	public GenGenGame()
 	{
@@ -29,8 +31,9 @@ public class GenGenGame : Game
 
 	protected override void Initialize()
 	{
-		_sceneManager = new SceneManager(this);
+		_sceneManager  = new SceneManager(this);
 		_stackRenderer = new SpriteStackRenderer();
+		_imGui         = new ImGuiRenderer();
 		base.Initialize();
 	}
 
@@ -38,7 +41,8 @@ public class GenGenGame : Game
 	{
 		_spriteBatch = new SpriteBatch(GraphicsDevice);
 		_stackRenderer.Initialize(GraphicsDevice, _spriteBatch);
-		_sceneManager.LoadScene(new TestScene(_stackRenderer, _spriteBatch));
+		_imGui.Initialize(GraphicsDevice);
+		_sceneManager.LoadScene(new TestScene(_stackRenderer, _spriteBatch, _imGui));
 	}
 
 	protected override void Update(GameTime gameTime)
@@ -61,6 +65,10 @@ public class GenGenGame : Game
 		_spriteBatch.Begin(sortMode: SpriteSortMode.BackToFront);
 		_sceneManager.DrawSprites(_spriteBatch, gameTime);
 		_spriteBatch.End();
+
+		_imGui.BeforeLayout(gameTime);
+		_sceneManager.DrawEditor(gameTime);
+		_imGui.AfterLayout();
 
 		base.Draw(gameTime);
 	}

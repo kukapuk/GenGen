@@ -2,6 +2,7 @@
 using GenGen.ECS;
 using GenGen.ECS.Components;
 using GenGen.ECS.Systems;
+using GenGen.Editor;
 using GenGen.Map;
 using GenGen.Rendering;
 using Microsoft.Xna.Framework;
@@ -13,7 +14,7 @@ namespace GenGen.Core;
 /// <summary>
 /// Тестовая сцена для проверки рендерера, карты и ECS.
 /// </summary>
-public class TestScene(SpriteStackRenderer renderer, SpriteBatch spriteBatch) : IScene
+public class TestScene(SpriteStackRenderer renderer, SpriteBatch spriteBatch, ImGuiRenderer imGui) : IScene
 {
 	private TileMap _map = null!;
 	private TileMapRenderer _mapRenderer = null!;
@@ -22,6 +23,7 @@ public class TestScene(SpriteStackRenderer renderer, SpriteBatch spriteBatch) : 
 
 	private World _world = null!;
 	private SystemManager _systems = null!;
+	private EditorLayer _editor = null!;
 	private Entity _player;
 
 	public void Initialize(GenGenGame game)
@@ -30,11 +32,13 @@ public class TestScene(SpriteStackRenderer renderer, SpriteBatch spriteBatch) : 
 
 		_map = new TileMap(20, 15, 16);
 		FillTestMap();
-		_tileset = GenerateTestTileset(4, 16);
+		_tileset     = GenerateTestTileset(4, 16);
 		_mapRenderer = new TileMapRenderer(spriteBatch);
 
-		_world = new World();
+		_world   = new World();
 		_systems = new SystemManager();
+		_editor  = new EditorLayer(_world);
+
 		_systems.Add(new MovementSystem(_world));
 		_systems.Add(new SpriteStackRenderSystem(_world, renderer));
 
@@ -86,6 +90,11 @@ public class TestScene(SpriteStackRenderer renderer, SpriteBatch spriteBatch) : 
 	public void DrawSprites(SpriteBatch sb, GameTime gameTime)
 	{
 		_systems.Draw((float)gameTime.ElapsedGameTime.TotalSeconds);
+	}
+
+	public void DrawEditor(GameTime gameTime)
+	{
+		_editor.Draw();
 	}
 
 	public void Dispose()
