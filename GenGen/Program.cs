@@ -1,3 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿using GenGen.Core;
 
-Console.WriteLine("Hello, World!");
+using var game = new GenGenGame();
+game.Run();
